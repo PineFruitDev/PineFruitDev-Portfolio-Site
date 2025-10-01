@@ -69,8 +69,11 @@ export const metadata: Metadata = {
     google: 'your-google-verification-code',
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
+    icon: [
+      { url: '/favicon.png?v=2', sizes: '128x128', type: 'image/png' },
+      { url: '/favicon.ico?v=2', sizes: 'any' },
+    ],
+    shortcut: '/favicon.ico?v=2',
     apple: '/apple-touch-icon.png',
   },
   manifest: '/manifest.json',

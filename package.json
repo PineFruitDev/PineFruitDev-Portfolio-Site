@@ -38,7 +38,7 @@
     "build": "npm-run-all clean build:compile build:next",
     "build:compile": "tsc",
     "build:next": "next build",
-    "build:production": "npm-run-all build:base export",
+    "build:production": "npm-run-all build export",
     "clean": "npm-run-all clean:port clean:next",
     "clean:port": "npx kill-port 3000",
     "clean:next": "rimraf .next out",

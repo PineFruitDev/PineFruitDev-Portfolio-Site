@@ -339,7 +339,68 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
 const ProjectsSection: React.FC = () => {
 
   const projects: Project[] = [
-    // Game Dev Projects
+    // Discord Bots
+    {
+      id: 'modulix-bot',
+      title: 'Modulix Bot',
+      description: 'Next-generation Discord bot designed to replace MEE6',
+      longDescription: 'A comprehensive Discord automation solution featuring advanced moderation, community engagement tools, custom commands, analytics dashboard, and enterprise-grade scalability. Built to address the limitations of existing bots with modern architecture and extensive customization options.',
+      technologies: ['Discord.js', 'TypeScript', 'Node.js', 'MongoDB', 'Docker', 'React Dashboard'],
+      imageUrl: '/projects/modulix-discord-bot-project.jpg',
+      category: 'discord-bot',
+    },
+    {
+      id: 'readyup-bot',
+      title: 'ReadyUp Bot',
+      description: 'Comprehensive UEFN creator toolkit with verification and analytics',
+      longDescription: 'An all-in-one Discord bot solution for UEFN creators featuring user verification systems, Fortnite map analytics diagnosis, discovery tab alerts, creator tools, and community management features. Plans to expand to all UGC platforms. Serving the ReadyUp community and growing.',
+      technologies: ['Discord.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Epic Games API', 'Redis'],
+      imageUrl: '/projects/readyup-discord-bot-project.jpg',
+      liveUrl: 'https://getreadyup.com',
+      category: 'discord-bot',
+    },
+    {
+      id: 'tstemplatebot',
+      title: 'TSTemplateBot',
+      description: 'Open source TypeScript Discord bot template',
+      longDescription: 'A comprehensive template for building Discord bots with TypeScript. Features modern architecture, command handling, database integration, and development best practices. Open source project to help other developers get started with Discord bot development.',
+      technologies: ['TypeScript', 'Discord.js', 'Node.js', 'Open Source'],
+      imageUrl: '/projects/tstemplate-discord-bot-project.jpg',
+      githubUrl: 'https://github.com/PineFruitDev/TSTemplateBot',
+      category: 'discord-bot',
+    },
+    // Discord Servers
+    {
+      id: 'uefn-tag-server',
+      title: 'UEFN Tag Discord',
+      description: 'UEFN creator community and collaboration space',
+      longDescription: 'A focused Discord community for UEFN creators featuring collaboration channels, resource sharing, creator spotlights, and community events. Custom server design with automated moderation and engagement features.',
+      technologies: ['Discord Server Design', 'Community Architecture', 'Moderation Systems'],
+      imageUrl: '/projects/uefn-tag-discord-community-project.jpg',
+      liveUrl: 'https://discord.gg/Zt2zu6gGmM',
+      category: 'discord-server',
+    },
+    {
+      id: 'uefn-market-server',
+      title: 'UEFN Market Discord',
+      description: 'Community hub for UGC creators and service providers',
+      longDescription: 'A thriving Discord community connecting UEFN creators with specialized service providers. Features custom server architecture, automated verification, project matching, and community management systems.',
+      technologies: ['Discord Server Design', 'Community Management', 'Custom Bots', 'Verification Systems'],
+      imageUrl: '/projects/uefn-market-discord-server-project.jpg',
+      liveUrl: 'https://discord.gg/uefnmarket',
+      category: 'discord-server',
+    },
+    {
+      id: 'readyup-server',
+      title: 'ReadyUp Discord',
+      description: 'UEFN creator toolkit community',
+      longDescription: 'The official Discord community for ReadyUp, featuring creator tools, verification systems, map analytics, and community support. Integrated with the ReadyUp Bot for seamless user experience.',
+      technologies: ['Discord Server Design', 'Bot Integration', 'Creator Tools', 'Analytics'],
+      imageUrl: '/projects/readyup-discord-community-project.jpg',
+      liveUrl: 'https://discord.gg/getreadyup',
+      category: 'discord-server',
+    },
+    // NDA Projects
     {
       id: 'aaa-game-project',
       title: 'AAA Game Development',
@@ -360,68 +421,6 @@ const ProjectsSection: React.FC = () => {
       category: 'game',
       isNDA: true,
     },
-    // Discord Bots
-    {
-      id: 'readyup-bot',
-      title: 'ReadyUp Bot',
-      description: 'Comprehensive UEFN creator toolkit with verification and analytics',
-      longDescription: 'An all-in-one Discord bot solution for UEFN creators featuring user verification systems, Fortnite map analytics diagnosis, discovery tab alerts, creator tools, and community management features. Plans to expand to all UGC platforms. Serving the ReadyUp community and growing.',
-      technologies: ['Discord.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Epic Games API', 'Redis'],
-      imageUrl: '/projects/readyup-discord-bot-project.jpg',
-      liveUrl: 'https://getreadyup.com',
-      category: 'discord-bot',
-    },
-    {
-      id: 'modulix-bot',
-      title: 'Modulix Bot',
-      description: 'Next-generation Discord bot designed to replace MEE6',
-      longDescription: 'A comprehensive Discord automation solution featuring advanced moderation, community engagement tools, custom commands, analytics dashboard, and enterprise-grade scalability. Built to address the limitations of existing bots with modern architecture and extensive customization options.',
-      technologies: ['Discord.js', 'TypeScript', 'Node.js', 'MongoDB', 'Docker', 'React Dashboard'],
-      imageUrl: '/projects/modulix-discord-bot-project.jpg',
-      category: 'discord-bot',
-    },
-    {
-      id: 'tstemplatebot',
-      title: 'TSTemplateBot',
-      description: 'Open source TypeScript Discord bot template',
-      longDescription: 'A comprehensive template for building Discord bots with TypeScript. Features modern architecture, command handling, database integration, and development best practices. Open source project to help other developers get started with Discord bot development.',
-      technologies: ['TypeScript', 'Discord.js', 'Node.js', 'Open Source'],
-      imageUrl: '/projects/tstemplate-discord-bot-project.jpg',
-      githubUrl: 'https://github.com/PineFruitDev/TSTemplateBot',
-      category: 'discord-bot',
-    },
-    // Discord Servers
-    {
-      id: 'uefn-market-server',
-      title: 'UEFN Market Discord',
-      description: 'Community hub for UGC creators and service providers',
-      longDescription: 'A thriving Discord community connecting UEFN creators with specialized service providers. Features custom server architecture, automated verification, project matching, and community management systems.',
-      technologies: ['Discord Server Design', 'Community Management', 'Custom Bots', 'Verification Systems'],
-      imageUrl: '/projects/uefn-market-discord-server-project.jpg',
-      liveUrl: 'https://discord.gg/uefnmarket',
-      category: 'discord-server',
-    },
-    {
-      id: 'uefn-tag-server',
-      title: 'UEFN Tag Discord',
-      description: 'UEFN creator community and collaboration space',
-      longDescription: 'A focused Discord community for UEFN creators featuring collaboration channels, resource sharing, creator spotlights, and community events. Custom server design with automated moderation and engagement features.',
-      technologies: ['Discord Server Design', 'Community Architecture', 'Moderation Systems'],
-      imageUrl: '/projects/uefn-tag-discord-community-project.jpg',
-      liveUrl: 'https://discord.gg/Zt2zu6gGmM',
-      category: 'discord-server',
-    },
-    {
-      id: 'readyup-server',
-      title: 'ReadyUp Discord',
-      description: 'UEFN creator toolkit community',
-      longDescription: 'The official Discord community for ReadyUp, featuring creator tools, verification systems, map analytics, and community support. Integrated with the ReadyUp Bot for seamless user experience.',
-      technologies: ['Discord Server Design', 'Bot Integration', 'Creator Tools', 'Analytics'],
-      imageUrl: '/projects/readyup-discord-community-project.jpg',
-      liveUrl: 'https://discord.gg/getreadyup',
-      category: 'discord-server',
-    },
-    // Other Projects
     {
       id: 'brand-integrations',
       title: 'Brand Integration Projects',
@@ -432,6 +431,7 @@ const ProjectsSection: React.FC = () => {
       category: 'other',
       isNDA: true,
     },
+    // Other Projects (moved to end)
     {
       id: 'bluesky-labeller',
       title: 'Bluesky UEFN Labeller',
