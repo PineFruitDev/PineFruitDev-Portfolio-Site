@@ -12,7 +12,7 @@ interface Tab {
 
 interface TabContainerProps {
   tabs: Tab[];
-  children: React.ReactNode[];
+  children: (activeTabId: string) => React.ReactNode;
   defaultTab?: string;
   className?: string;
 }
@@ -24,8 +24,6 @@ const TabContainer: React.FC<TabContainerProps> = ({
   className,
 }) => {
   const [activeTab, setActiveTab] = useState(defaultTab || tabs[0]?.id);
-
-  const activeIndex = tabs.findIndex(tab => tab.id === activeTab);
 
   return (
     <div className={cn('w-full', className)}>
@@ -85,15 +83,15 @@ const TabContainer: React.FC<TabContainerProps> = ({
               initial={{ opacity: 0, x: 20, scale: 0.98 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -20, scale: 0.98 }}
-              transition={{ 
+              transition={{
                 duration: 0.4,
-                type: "spring", 
-                stiffness: 300, 
-                damping: 30 
+                type: "spring",
+                stiffness: 300,
+                damping: 30
               }}
               className="p-8"
             >
-              {children[activeIndex]}
+              {children(activeTab)}
             </motion.div>
           </AnimatePresence>
           

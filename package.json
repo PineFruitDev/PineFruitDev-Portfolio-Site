@@ -1,5 +1,5 @@
 {
-  "name": "Pines Portfolio",
+  "name": "pines-portfolio",
   "version": "1.0.0",
   "description": "Modern portfolio website for PineFruitDev - Full-Stack Developer & Game Development Expert",
   "author": "PineFruitDev (Sky Tomlinson)",
@@ -30,19 +30,21 @@
     "npm": ">=8.0.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "build:production": "cross-env NEXT_OUTPUT=export npm run build",
-    "start": "next start",
-    "lint": "next lint",
+    "dev:start": "next dev",
+    "dev": "npm-run-all build dev:start",
+    "test:start": "next start",
+    "test": "npm-run-all build:production test:start",
     "type-check": "tsc --noEmit",
-    "clean": "rimraf .next out"
+    "build": "npm-run-all clean build:compile build:next",
+    "build:compile": "tsc",
+    "build:next": "next build",
+    "build:production": "npm-run-all build:base export",
+    "clean": "npm-run-all clean:port clean:next",
+    "clean:port": "npx kill-port 3000",
+    "clean:next": "rimraf .next out",
+    "export": "cross-env NEXT_OUTPUT=export next build"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.6.0",
-    "@radix-ui/react-dialog": "^1.1.0",
-    "@radix-ui/react-slot": "^1.1.0",
-    "@radix-ui/react-toast": "^1.2.0",
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
     "class-variance-authority": "^0.7.1",
@@ -51,12 +53,11 @@
     "lenis": "^1.1.0",
     "lucide-react": "^0.400.0",
     "next": "^15.5.4",
+    "npm-run-all": "^4.1.5",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "react-hook-form": "^7.52.0",
     "tailwind-merge": "^2.4.0",
-    "three": "^0.180.0",
-    "zod": "^3.23.0"
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

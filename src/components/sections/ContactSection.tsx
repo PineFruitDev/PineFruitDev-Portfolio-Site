@@ -30,8 +30,8 @@ const ContactSection: React.FC = () => {
     {
       icon: <Mail className="w-6 h-6" />,
       label: 'Email',
-      value: 'pinefruitdev@gmail.com',
-      href: 'mailto:pinefruitdev@gmail.com',
+      value: 'contact@pinefruit.dev',
+      href: 'mailto:contact@pinefruit.dev',
     },
     {
       icon: <MapPin className="w-6 h-6" />,
@@ -162,162 +162,176 @@ const ContactSection: React.FC = () => {
           ]}
           defaultTab="discord"
         >
-        {/* Tab 1: Discord Contact */}
-        <div className="space-y-6">
-          {/* Sample Message - Right under nav */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <DiscordMessagePreview triggerTyping={shouldTriggerTyping} />
-          </motion.div>
+          {(activeTabId) => {
+            switch (activeTabId) {
+              case 'discord':
+                return (
+                  <div className="space-y-6">
+                    {/* Sample Message - Right under nav */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <DiscordMessagePreview triggerTyping={shouldTriggerTyping} />
+                    </motion.div>
 
-          {/* OR Divider */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex items-center justify-center py-2"
-          >
-            <div className="flex items-center gap-4">
-              <div className="h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent w-16"></div>
-              <span className="text-gray-400 font-medium text-sm tracking-wider">OR</span>
-              <div className="h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent w-16"></div>
-            </div>
-          </motion.div>
+                    {/* OR Divider */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="flex items-center justify-center py-2"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent w-16"></div>
+                        <span className="text-gray-400 font-medium text-sm tracking-wider">OR</span>
+                        <div className="h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent w-16"></div>
+                      </div>
+                    </motion.div>
 
-          {/* Contact Form Below */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Card className="p-8">
-              <div className="text-center mb-6">
-                <h4 className="text-xl font-bold text-white mb-2">Send via Website</h4>
-                <p className="text-gray-400">
-                  Fill out the form below and authenticate with Discord to send a formatted message.
-                </p>
-              </div>
-              <DiscordContactForm />
-            </Card>
-          </motion.div>
-        </div>
-
-        {/* Tab 2: Schedule Meeting */}
-        <div className="space-y-6">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Schedule a Consultation
-            </h3>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Book a time that works for both of us to dive deep into your project requirements.
-            </p>
-          </div>
-          
-          <Card className="overflow-hidden">
-            <CalendlyWidget 
-              url="https://calendly.com/pinefruitdev?hide_event_type_details=1&hide_gdpr_banner=1"
-              height={700}
-            />
-          </Card>
-        </div>
-
-        {/* Tab 3: Other Contact Methods */}
-        <div className="space-y-8">
-          {/* Introductory Text */}
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Alternative Contact Options
-            </h3>
-            <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed">
-              While Discord and scheduled meetings are my preferred methods for the fastest responses, 
-              I understand everyone has different communication preferences. Here are additional ways 
-              to connect with me, plus all my social media profiles where you can follow my work 
-              and latest updates.
-            </p>
-          </motion.div>
-          
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Information */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <Card className="p-8 h-full">
-                <h4 className="text-xl font-bold text-white mb-6">Contact Information</h4>
-              <div className="space-y-6">
-                {contactInfo.map((item, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400">
-                      {item.icon}
+                    {/* Contact Form Below */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      <Card className="p-8">
+                        <div className="text-center mb-6">
+                          <h4 className="text-xl font-bold text-white mb-2">Send via Website</h4>
+                          <p className="text-gray-400">
+                            Fill out the form below and authenticate with Discord to send a formatted message.
+                          </p>
+                        </div>
+                        <DiscordContactForm />
+                      </Card>
+                    </motion.div>
+                  </div>
+                );
+              case 'schedule':
+                return (
+                  <div className="space-y-6">
+                    <div className="text-center mb-8">
+                      <h3 className="text-2xl font-bold text-white mb-4">
+                        Schedule a Consultation
+                      </h3>
+                      <p className="text-gray-400 max-w-2xl mx-auto">
+                        Book a time that works for both of us to dive deep into your project requirements.
+                      </p>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-400 mb-1">{item.label}</p>
-                      {item.href ? (
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-white hover:text-purple-400 transition-colors font-medium"
-                        >
-                          {item.value}
-                        </a>
-                      ) : (
-                        <p className="text-white font-medium">{item.value}</p>
-                      )}
+
+                    <Card className="overflow-hidden">
+                      <CalendlyWidget
+                        url="https://calendly.com/pinefruitdev?hide_event_type_details=1&hide_gdpr_banner=1"
+                        height={700}
+                      />
+                    </Card>
+                  </div>
+                );
+              case 'other':
+                return (
+                  <div className="space-y-8">
+                    {/* Introductory Text */}
+                    <motion.div
+                      className="text-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <h3 className="text-2xl font-bold text-white mb-4">
+                        Alternative Contact Options
+                      </h3>
+                      <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                        While Discord and scheduled meetings are my preferred methods for the fastest responses,
+                        I understand everyone has different communication preferences. Here are additional ways
+                        to connect with me, plus all my social media profiles where you can follow my work
+                        and latest updates.
+                      </p>
+                    </motion.div>
+
+                    <div className="grid lg:grid-cols-2 gap-12">
+                      {/* Contact Information */}
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        <Card className="p-8 h-full">
+                          <h4 className="text-xl font-bold text-white mb-6">Contact Information</h4>
+                        <div className="space-y-6">
+                          {contactInfo.map((item, index) => (
+                            <div key={index} className="flex items-center gap-4">
+                              <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400">
+                                {item.icon}
+                              </div>
+                              <div>
+                                <p className="text-sm text-gray-400 mb-1">{item.label}</p>
+                                {item.href ? (
+                                  <a
+                                    href={item.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-white hover:text-purple-400 transition-colors font-medium"
+                                  >
+                                    {item.value}
+                                  </a>
+                                ) : (
+                                  <p className="text-white font-medium">{item.value}</p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </Card>
+                    </motion.div>
+
+                    {/* Social Media */}
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      <Card className="p-8 h-full">
+                        <h4 className="text-xl font-bold text-white mb-6">Follow on Social Media</h4>
+                        <div className="flex flex-wrap justify-center gap-4">
+                          {socialLinks.map((link, index) => (
+                            <motion.a
+                              key={link.name}
+                              href={link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={cn(
+                                'p-4 rounded-lg bg-white/5 border border-white/10 text-gray-400 transition-all duration-300',
+                                link.color,
+                                'hover:bg-white/10 hover:scale-110'
+                              )}
+                              whileHover={{ scale: 1.1, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.1 + 0.6 }}
+                              title={link.name}
+                            >
+                              {link.icon}
+                            </motion.a>
+                          ))}
+                        </div>
+                        <p className="text-gray-500 text-sm text-center mt-6">
+                          Follow my work, updates, and behind-the-scenes content across all platforms
+                        </p>
+                      </Card>
+                    </motion.div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </Card>
-          </motion.div>
-
-          {/* Social Media */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Card className="p-8 h-full">
-              <h4 className="text-xl font-bold text-white mb-6">Follow on Social Media</h4>
-              <div className="flex flex-wrap justify-center gap-4">
-                {socialLinks.map((link, index) => (
-                  <motion.a
-                    key={link.name}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      'p-4 rounded-lg bg-white/5 border border-white/10 text-gray-400 transition-all duration-300',
-                      link.color,
-                      'hover:bg-white/10 hover:scale-110'
-                    )}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 + 0.6 }}
-                    title={link.name}
-                  >
-                    {link.icon}
-                  </motion.a>
-                ))}
-              </div>
-              <p className="text-gray-500 text-sm text-center mt-6">
-                Follow my work, updates, and behind-the-scenes content across all platforms
-              </p>
-            </Card>
-          </motion.div>
-          </div>
-        </div>
+                );
+              default:
+                return (
+                  <div className="space-y-6">
+                    <DiscordMessagePreview triggerTyping={shouldTriggerTyping} />
+                  </div>
+                );
+            }
+          }}
         </TabContainer>
       </div>
     </Section>

@@ -11,6 +11,7 @@ import { scrollToElement } from '@/lib/utils';
 const HeroSection: React.FC = () => {
   const mousePosition = useMousePosition();
   const [currentRole, setCurrentRole] = useState(0);
+  const [mounted, setMounted] = useState(false);
   
   const roles = [
     'Contract Engineer',
@@ -29,12 +30,17 @@ const HeroSection: React.FC = () => {
     return () => clearInterval(interval);
   }, [roles.length]);
 
-  // Parallax effect calculations
-  const parallaxX = typeof window !== 'undefined' 
-    ? (mousePosition.x - window.innerWidth / 2) * 0.02 
+  // Set mounted state after hydration
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Parallax effect calculations - only active after hydration
+  const parallaxX = mounted && typeof window !== 'undefined'
+    ? (mousePosition.x - window.innerWidth / 2) * 0.02
     : 0;
-  const parallaxY = typeof window !== 'undefined' 
-    ? (mousePosition.y - window.innerHeight / 2) * 0.02 
+  const parallaxY = mounted && typeof window !== 'undefined'
+    ? (mousePosition.y - window.innerHeight / 2) * 0.02
     : 0;
 
   const containerVariants = {
@@ -72,11 +78,11 @@ const HeroSection: React.FC = () => {
         className="absolute inset-0 pointer-events-none overflow-hidden"
       >
         {/* Primary purple orb - moves toward mouse */}
-        <motion.div 
+        <motion.div
           className="absolute w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
           animate={{
-            x: typeof window !== 'undefined' ? parallaxX * 8 : 0,
-            y: typeof window !== 'undefined' ? parallaxY * 8 : 0,
+            x: mounted ? parallaxX * 8 : 0,
+            y: mounted ? parallaxY * 8 : 0,
           }}
           transition={{ type: "spring", stiffness: 100, damping: 30 }}
           style={{
@@ -86,11 +92,11 @@ const HeroSection: React.FC = () => {
         />
         
         {/* Secondary blue orb - moves away from mouse */}
-        <motion.div 
+        <motion.div
           className="absolute w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
           animate={{
-            x: typeof window !== 'undefined' ? -parallaxX * 6 : 0,
-            y: typeof window !== 'undefined' ? -parallaxY * 6 : 0,
+            x: mounted ? -parallaxX * 6 : 0,
+            y: mounted ? -parallaxY * 6 : 0,
           }}
           transition={{ type: "spring", stiffness: 80, damping: 25 }}
           style={{
@@ -100,11 +106,11 @@ const HeroSection: React.FC = () => {
         />
         
         {/* Central cyan orb - subtle mouse interaction + pulse */}
-        <motion.div 
+        <motion.div
           className="absolute w-[800px] h-[800px] bg-cyan-500/5 rounded-full blur-3xl"
           animate={{
-            x: typeof window !== 'undefined' ? parallaxX * 3 : 0,
-            y: typeof window !== 'undefined' ? parallaxY * 3 : 0,
+            x: mounted ? parallaxX * 3 : 0,
+            y: mounted ? parallaxY * 3 : 0,
             scale: [1, 1.1, 1],
           }}
           transition={{ 
@@ -176,7 +182,9 @@ const HeroSection: React.FC = () => {
         >
           Six years of startup chaos taught me to ship fast, pivot faster, and keep users hooked.
           <br className="hidden md:block" />
-          Now I'm channeling that energy into Discord kingdoms and UEFN magic that transforms how creators connect and create.
+          Now I'm channeling that energy into Discord kingdoms and UEFN magic
+          <br className="hidden md:block" />
+          that transforms how creators connect and create.
         </motion.p>
 
         {/* Call-to-action buttons */}

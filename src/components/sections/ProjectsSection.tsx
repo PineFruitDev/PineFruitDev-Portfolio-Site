@@ -25,7 +25,8 @@ interface ProjectGridProps {
 
 const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+
   const projectsCascade = useCascadeScroll({
     enabled: true,
     onNext: () => {}, // No carousel behavior for projects, just scroll
@@ -34,6 +35,17 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
     threshold: 1, // Tight boundary detection
     allowPageScrollPassthrough: true, // Enable seamless page scroll passthrough
   });
+
+  // Reset scroll position when projects change
+  React.useEffect(() => {
+    if (projectsCascade.scrollableRef.current) {
+      projectsCascade.scrollableRef.current.scrollTop = 0;
+    }
+  }, [projects]);
+
+  const handleImageError = (projectId: string) => {
+    setImageErrors(prev => new Set(prev).add(projectId));
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -59,21 +71,21 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
   };
 
   return (
-    <>
+    <div>
       {/* Projects Grid - Fixed height container showing 2 rows */}
-      <div 
+      <div
         ref={projectsCascade.containerRef}
-        className="rounded-lg" 
+        className="rounded-lg"
         style={{ height: 'calc(2 * (320px + 2rem))' }}
       >
-        <div 
+        <div
           ref={projectsCascade.scrollableRef}
           className="overflow-y-auto h-full"
         >
         <motion.div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pr-4"
           variants={containerVariants}
-          initial="hidden"
+          initial="visible"
           animate="visible"
         >
         {projects.map((project) => (
@@ -81,7 +93,7 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
             key={project.id}
             variants={itemVariants}
             layout
-            initial="hidden"
+            initial="visible"
             animate="visible"
             exit="hidden"
             onClick={() => setSelectedProject(project)}
@@ -92,10 +104,22 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
             >
               {/* Project Image - 3x2 aspect ratio */}
               <div className="relative aspect-[3/2] mb-6 bg-gray-800 rounded-lg overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Code className="w-16 h-16 text-gray-600" />
-                </div>
+                {project.imageUrl && !imageErrors.has(project.id) ? (
+                  <img
+                    src={project.imageUrl}
+                    alt={`${project.title} project screenshot`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={() => handleImageError(project.id)}
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Code className="w-16 h-16 text-gray-600" />
+                    </div>
+                  </>
+                )}
                 
                 {/* Overlay on hover */}
                 <motion.div
@@ -221,10 +245,22 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
                   <div className="md:col-span-2 space-y-6">
                     {/* Project Image - 3x2 aspect ratio */}
                     <div className="relative aspect-[3/2] bg-gray-800 rounded-lg overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Code className="w-16 h-16 text-gray-600" />
-                      </div>
+                      {selectedProject.imageUrl && !imageErrors.has(selectedProject.id) ? (
+                        <img
+                          src={selectedProject.imageUrl}
+                          alt={`${selectedProject.title} project screenshot`}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                          onError={() => handleImageError(selectedProject.id)}
+                        />
+                      ) : (
+                        <>
+                          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Code className="w-16 h-16 text-gray-600" />
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {/* Technologies */}
@@ -296,7 +332,7 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 
@@ -310,7 +346,7 @@ const ProjectsSection: React.FC = () => {
       description: 'Verse programming and game systems for major studio project',
       longDescription: 'Contributing to a large-scale game development project for a well-known AAA studio. Responsibilities include Verse programming, game mechanics implementation, system optimization, and collaboration with cross-functional teams. Project details remain confidential due to ongoing development.',
       technologies: ['Verse', 'UEFN', 'Unreal Engine', 'Game Design', 'Performance Optimization'],
-      imageUrl: '/projects/aaa-game.jpg',
+      imageUrl: '/projects/aaa-game-development-project.jpg',
       category: 'game',
       isNDA: true,
     },
@@ -320,7 +356,7 @@ const ProjectsSection: React.FC = () => {
       description: 'Custom leaderboard and achievement tracking system',
       longDescription: 'Developed a comprehensive backend and frontend system for a major marketing agency in the gaming space. Features real-time leaderboards, custom achievement systems, game API integrations, and detailed analytics dashboards. Built to handle large-scale events with high-performance requirements.',
       technologies: ['React', 'Node.js', 'PostgreSQL', 'Game APIs', 'Real-time Analytics', 'Docker'],
-      imageUrl: '/projects/analytics-platform.jpg',
+      imageUrl: '/projects/gaming-analytics-platform-project.jpg',
       category: 'game',
       isNDA: true,
     },
@@ -331,7 +367,7 @@ const ProjectsSection: React.FC = () => {
       description: 'Comprehensive UEFN creator toolkit with verification and analytics',
       longDescription: 'An all-in-one Discord bot solution for UEFN creators featuring user verification systems, Fortnite map analytics diagnosis, discovery tab alerts, creator tools, and community management features. Plans to expand to all UGC platforms. Serving the ReadyUp community and growing.',
       technologies: ['Discord.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Epic Games API', 'Redis'],
-      imageUrl: '/projects/readyup-bot.jpg',
+      imageUrl: '/projects/readyup-discord-bot-project.jpg',
       liveUrl: 'https://getreadyup.com',
       category: 'discord-bot',
     },
@@ -341,7 +377,7 @@ const ProjectsSection: React.FC = () => {
       description: 'Next-generation Discord bot designed to replace MEE6',
       longDescription: 'A comprehensive Discord automation solution featuring advanced moderation, community engagement tools, custom commands, analytics dashboard, and enterprise-grade scalability. Built to address the limitations of existing bots with modern architecture and extensive customization options.',
       technologies: ['Discord.js', 'TypeScript', 'Node.js', 'MongoDB', 'Docker', 'React Dashboard'],
-      imageUrl: '/projects/modulix-bot.jpg',
+      imageUrl: '/projects/modulix-discord-bot-project.jpg',
       category: 'discord-bot',
     },
     {
@@ -350,7 +386,7 @@ const ProjectsSection: React.FC = () => {
       description: 'Open source TypeScript Discord bot template',
       longDescription: 'A comprehensive template for building Discord bots with TypeScript. Features modern architecture, command handling, database integration, and development best practices. Open source project to help other developers get started with Discord bot development.',
       technologies: ['TypeScript', 'Discord.js', 'Node.js', 'Open Source'],
-      imageUrl: '/projects/tstemplatebot.jpg',
+      imageUrl: '/projects/tstemplate-discord-bot-project.jpg',
       githubUrl: 'https://github.com/PineFruitDev/TSTemplateBot',
       category: 'discord-bot',
     },
@@ -361,7 +397,7 @@ const ProjectsSection: React.FC = () => {
       description: 'Community hub for UGC creators and service providers',
       longDescription: 'A thriving Discord community connecting UEFN creators with specialized service providers. Features custom server architecture, automated verification, project matching, and community management systems.',
       technologies: ['Discord Server Design', 'Community Management', 'Custom Bots', 'Verification Systems'],
-      imageUrl: '/projects/uefn-market-server.jpg',
+      imageUrl: '/projects/uefn-market-discord-server-project.jpg',
       liveUrl: 'https://discord.gg/uefnmarket',
       category: 'discord-server',
     },
@@ -371,7 +407,7 @@ const ProjectsSection: React.FC = () => {
       description: 'UEFN creator community and collaboration space',
       longDescription: 'A focused Discord community for UEFN creators featuring collaboration channels, resource sharing, creator spotlights, and community events. Custom server design with automated moderation and engagement features.',
       technologies: ['Discord Server Design', 'Community Architecture', 'Moderation Systems'],
-      imageUrl: '/projects/uefn-tag-server.jpg',
+      imageUrl: '/projects/uefn-tag-discord-community-project.jpg',
       liveUrl: 'https://discord.gg/Zt2zu6gGmM',
       category: 'discord-server',
     },
@@ -381,7 +417,7 @@ const ProjectsSection: React.FC = () => {
       description: 'UEFN creator toolkit community',
       longDescription: 'The official Discord community for ReadyUp, featuring creator tools, verification systems, map analytics, and community support. Integrated with the ReadyUp Bot for seamless user experience.',
       technologies: ['Discord Server Design', 'Bot Integration', 'Creator Tools', 'Analytics'],
-      imageUrl: '/projects/readyup-server.jpg',
+      imageUrl: '/projects/readyup-discord-community-project.jpg',
       liveUrl: 'https://discord.gg/getreadyup',
       category: 'discord-server',
     },
@@ -392,7 +428,7 @@ const ProjectsSection: React.FC = () => {
       description: 'Strategic project management for entertainment brand collaborations',
       longDescription: 'Leading technical project management for multiple high-profile brand integrations in the Fortnite ecosystem. Coordinating between artists, brands, development teams, and platform holders to deliver seamless integration experiences. Projects span music, entertainment, and consumer brand partnerships.',
       technologies: ['Project Management', 'UEFN', 'Brand Strategy', 'Cross-team Coordination', 'Launch Planning'],
-      imageUrl: '/projects/brand-integrations.jpg',
+      imageUrl: '/projects/nda-project.jpg',
       category: 'other',
       isNDA: true,
     },
@@ -402,7 +438,7 @@ const ProjectsSection: React.FC = () => {
       description: 'Automated UEFN/Verse content tagging system for Bluesky',
       longDescription: 'An automated labelling system for Bluesky that identifies and tags UEFN and Verse-related content. Helps creators and developers discover relevant content and connect with the UEFN community on the platform.',
       technologies: ['Bluesky API', 'Content Analysis', 'Automated Tagging', 'TypeScript'],
-      imageUrl: '/projects/bluesky-labeller.jpg',
+      imageUrl: '/projects/bluesky-uefn-labeller-project.jpg',
       liveUrl: 'https://bsky.app/profile/uefn.pinefruit.dev',
       category: 'other',
     },
@@ -449,20 +485,22 @@ const ProjectsSection: React.FC = () => {
         defaultTab="all"
         className="max-w-7xl mx-auto"
       >
-        {/* All Projects Tab */}
-        <ProjectGrid projects={projects} />
-
-        {/* Game Dev Tab */}
-        <ProjectGrid projects={projects.filter(p => p.category === 'game')} />
-
-        {/* Discord Bots Tab */}
-        <ProjectGrid projects={projects.filter(p => p.category === 'discord-bot')} />
-
-        {/* Discord Servers Tab */}
-        <ProjectGrid projects={projects.filter(p => p.category === 'discord-server')} />
-
-        {/* Other Tab */}
-        <ProjectGrid projects={projects.filter(p => p.category === 'other')} />
+        {(activeTabId) => {
+          switch (activeTabId) {
+            case 'all':
+              return <ProjectGrid key={`projects-${activeTabId}`} projects={projects} />;
+            case 'game':
+              return <ProjectGrid key={`projects-${activeTabId}`} projects={projects.filter(p => p.category === 'game')} />;
+            case 'discord-bot':
+              return <ProjectGrid key={`projects-${activeTabId}`} projects={projects.filter(p => p.category === 'discord-bot')} />;
+            case 'discord-server':
+              return <ProjectGrid key={`projects-${activeTabId}`} projects={projects.filter(p => p.category === 'discord-server')} />;
+            case 'other':
+              return <ProjectGrid key={`projects-${activeTabId}`} projects={projects.filter(p => p.category === 'other')} />;
+            default:
+              return <ProjectGrid key={`projects-${activeTabId}`} projects={projects} />;
+          }
+        }}
       </TabContainer>
 
     </Section>
