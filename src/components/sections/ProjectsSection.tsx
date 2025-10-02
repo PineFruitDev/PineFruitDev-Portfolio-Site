@@ -41,7 +41,7 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
     if (projectsCascade.scrollableRef.current) {
       projectsCascade.scrollableRef.current.scrollTop = 0;
     }
-  }, [projects]);
+  }, [projects, projectsCascade.scrollableRef]);
 
   const handleImageError = (projectId: string) => {
     setImageErrors(prev => new Set(prev).add(projectId));
